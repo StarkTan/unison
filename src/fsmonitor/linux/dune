@@ -1,0 +1,20 @@
+(copy_files# ../watchercommon.ml{,i})
+
+(library
+ (name fswatcher)
+ (wrapped false)
+ (enabled_if (= %{system} "linux"))
+ (modules :standard \ watcher)
+ (flags :standard -w -3-27-39)
+ (foreign_stubs
+  (language c)
+  (names inotify_stubs))
+ (libraries unix lwt_lib))
+
+(executable
+ (name watcher)
+ (public_name unison-fsmonitor)
+ (enabled_if (= %{system} "linux"))
+ (modules watcher)
+ (flags :standard -w -27)
+ (libraries fswatcher))
